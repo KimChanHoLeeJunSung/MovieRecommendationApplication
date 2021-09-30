@@ -1,7 +1,7 @@
 package com._chanho.movie_recommendation.security;
 
-import com._chanho.movie_recommendation.Filter.CustomAuthenticationFilter;
-import com._chanho.movie_recommendation.Filter.CustomAuthorizationFilter;
+import com._chanho.movie_recommendation.filter.CustomAuthenticationFilter;
+import com._chanho.movie_recommendation.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/login/**", "/api/user/save", "/api/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST, "/api/user/save/**").hasAnyAuthority("ROLE_ADMIN");
 

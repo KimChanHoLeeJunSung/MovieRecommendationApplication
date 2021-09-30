@@ -33,7 +33,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username);
         if(user == null) {
-            log.error("User not found in the database");
+            log.error("User not found in the database {}", username);
             throw new UsernameNotFoundException("User not found in the database");
         } else {
             log.info("User found in the database: {}", username);
@@ -49,7 +49,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     @Override
     public AppUser saveUser(AppUser appUser) {
         log.info("Saving new user {} to the db", appUser.getNickname());
-        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+//        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         return appUserRepository.save(appUser);
     }
 

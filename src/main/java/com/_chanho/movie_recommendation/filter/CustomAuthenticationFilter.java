@@ -1,12 +1,14 @@
-package com._chanho.movie_recommendation.Filter;
+package com._chanho.movie_recommendation.filter;
 
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -19,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,14 +29,49 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
+    private HashMap<String, String> jsonRequest;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
+
+    @Override
+    protected String obtainPassword(HttpServletRequest request) {
+        String password  = super.getPasswordParameter();
+        if(request.getHeader("Content-Type").equals(MediaType.APPLICATION_JSON_VALUE)) {
+            return jsonRequest.get(password);
+        }
+        return request.getParameter(password);
+    }
+
+    @Override
+    protected String obtainUsername(HttpServletRequest request) {
+        String username  = super.getUsernameParameter();
+        if(request.getHeader("Content-Type").equals(MediaType.APPLICATION_JSON_VALUE)) {
+            return jsonRequest.get(username);
+        }
+        return request.getParameter(username);
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        if(request.getHeader("Content-Type").equals(MediaType.APPLICATION_JSON_VALUE)) {
+            log.info("Json Login Attempt");
+
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                this.jsonRequest =
+                        mapper.readValue(request.getReader().lines().collect(Collectors.joining()),
+                                new TypeReference<HashMap<String, String>>() {
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new AuthenticationServiceException("Request Content-Type (application/json) Parsing error");
+            }
+        }
+
+        String username = obtainUsername(request);
+        String password = obtainPassword(request);
 
         log.info("{} attempt to login with {}", username, password);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
@@ -57,7 +93,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         String refreshToken = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 300 * 60 * 1000))
                 .withIssuer(request.getRequestURI().toString())
                 .sign(algorithm);
 

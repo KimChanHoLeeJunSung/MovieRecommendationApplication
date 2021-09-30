@@ -1,4 +1,4 @@
-package com._chanho.movie_recommendation.user;
+package com._chanho.movie_recommendation.movie;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,24 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-/**
- *  @author MungBoon(Kim ChanHo)
- *  @version 1.0
- *  @since 09/24/2021
- */
-
-@Entity
-@Data
+@Entity @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    public Role(String roleName) {
-        this.name = roleName;
-    }
+    private String movieName;
 }
