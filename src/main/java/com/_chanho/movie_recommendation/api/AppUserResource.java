@@ -150,8 +150,3 @@ class SignUpForm {
     }
 }
 
-@Data @Builder
-class LoginForm {
-    private String username;
-    private String password;
-}

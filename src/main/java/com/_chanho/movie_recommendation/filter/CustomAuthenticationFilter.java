@@ -56,8 +56,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if(request.getHeader("Content-Type").equals(MediaType.APPLICATION_JSON_VALUE)) {
-            log.info("Json Login Attempt");
-
             ObjectMapper mapper = new ObjectMapper();
             try {
                 this.jsonRequest =

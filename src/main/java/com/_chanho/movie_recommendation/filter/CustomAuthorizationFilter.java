@@ -32,12 +32,14 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/token/refresh")) {
+            log.info("servlet path: {}", request.getServletPath());
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try{
                     String token = authorizationHeader.substring("Bearer ".length());
+                    log.info("token: {}", token);
                     Algorithm algorithm = Algorithm.HMAC256("secretKey".getBytes());
 
                     JWTVerifier verifier = JWT.require(algorithm).build();
