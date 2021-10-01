@@ -1,12 +1,17 @@
 .cards{
-    margin-top:1vw;
+    margin-top:calc(1vw + 100px);
     margin-bottom:1vw;
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
 }
 .card{
-    padding:1vw;
+    padding: 1vw;
+}
+.poster{
+    width: 300px;
+    height: 450px;
+    box-shadow: 5px 5px 5px;
 }
 .content {
     width: 300px;
@@ -15,6 +20,7 @@
     display: flex;
     flex-direction: column;
     background-color: white;
+    box-shadow: 5px 5px 5px;
     font-family: sans-serif;
 }
 .overview::-webkit-scrollbar {
@@ -37,8 +43,23 @@
     justify-content: space-around;
     align-items:center;
 }
-.ratings{
+.Header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100px;
+    background-color: rgb(255, 255, 255,0.5);
+    font-family:fantasy;
 }
-.submitButton{
-    
+.headerTop{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80vw;
+}
+.headerButton{
+    height: fit-content;
+}
+.progressBar{
+    width: 80vw;
 }

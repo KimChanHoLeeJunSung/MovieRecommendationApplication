@@ -2,8 +2,8 @@ import { GetStaticProps, InferGetStaticPropsType} from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import {Row,Col,Card,Button} from 'react-bootstrap';
-import { Rating, RatingView } from 'react-simple-star-rating'
+import {Button,ProgressBar,Navbar} from 'react-bootstrap';
+import { Rating } from 'react-simple-star-rating'
 import {useState} from 'react'
 import ReactCardFlip from 'react-card-flip';
 
@@ -17,7 +17,7 @@ export const getStaticProps: GetStaticProps = async() => {
   }
 }
 
-const Cards = ({movieData} : any) => {
+const Cards = ({movieData,storage,setStorage} : any) => {
   const [rating, setRating] = useState<number[]>(new Array(movieData.length).fill(0))
   const [isFlipped, setIsFlipped] = useState<boolean[]>(new Array(movieData.length).fill(false))
 
@@ -31,19 +31,43 @@ const Cards = ({movieData} : any) => {
     nFlipped.splice(idx,1,!isFlipped[idx])
     setIsFlipped(nFlipped)
   }
+  const handleStorage = (title:string, rate:number) => {
+    for(let i = 0; i < storage.length; i++){
+      if(storage[i][0] === title && storage[i][1] === rate)
+        return
+      else if(storage[i][0] === title){
+        storage.splice(i,1)
+        break
+      }
+    }
+    const nStorage = storage.slice()
+    nStorage.push([title,rate])
+    setStorage(nStorage)
+  }
+  const refreshCard = (title:string) => {
+    const nStorage = storage.slice()
+    for(let i = 0; i < storage.length; i++){
+      if(storage[i][0] === title)
+        nStorage.splice(i,1)
+        setStorage(nStorage)
+        break
+    }
+  }
 
   return(
     <div className = {styles.cards}>
       {movieData.map((movie: any, idx:number) => 
         <div key = {movie.title} className = {styles.card}>
            <ReactCardFlip isFlipped={isFlipped[idx]} flipDirection="vertical">
-            <Image alt = '' src ={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} width='300px' height='450px' onClick = {() => {handleClick(idx)}}/>
+            <div className = {styles.poster}>
+              <Image alt = '' src ={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} width='300px' height='450px' onClick = {() => {handleClick(idx)}}/>
+            </div>
             <div className = {styles.content}>
               <div className= {styles.title}>{movie.title}</div>
-              <div onClick = {() => {handleClick(idx)}} className = {styles.overview}>{movie.overview}</div>
+              <div onClick = {() => {handleClick(idx); handleRating(0,idx); refreshCard(movie.title);}} className = {styles.overview}>{movie.overview}</div>
               <div className = {styles.foot}>
-                <Rating onClick={(rate) => {handleRating(rate,idx)}} ratingValue={rating[idx]} /* Rating Props */ className = {styles.ratings}/>
-                <Button variant = "outline-primary" className = {styles.submitButton}>Submit</Button>
+                <Rating onClick={(rate) => {handleRating(rate,idx)}} ratingValue={rating[idx]}/>
+                <Button variant = "outline-primary" onClick = {()=> {handleStorage(movie.title,rating[idx])}}>Submit</Button>
               </div>
             </div>
             </ReactCardFlip>
@@ -54,9 +78,18 @@ const Cards = ({movieData} : any) => {
 }
 
 const Home = ({movieData}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const [storage, setStorage] = useState<any[]>([]);
+  console.log(storage)
   return (
     <>
-      <Cards movieData={movieData}></Cards>
+      <Navbar fixed = 'top' className = {styles.Header}>
+        <div className ={styles.headerTop}>
+          <h1>Please rates at least 10 movies</h1>
+          <Button variant = "success" className = {styles.headerButton}>Next</Button>
+        </div>
+        <ProgressBar striped variant="success" now={storage.length*5} label = {`${storage.length}/20`} className = {styles.progressBar}/>
+      </Navbar>
+      <Cards movieData={movieData} storage = {storage} setStorage = {setStorage}></Cards>
     </>
   );
 };

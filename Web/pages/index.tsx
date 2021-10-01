@@ -20,30 +20,34 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            autoFocus
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="password">
-          <Form.Label className = 'password'>Password</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button  type="submit" disabled={!validateForm()} className = 'loginButton'
-                onClick = {() => {checkLogin()}}>
-            Login
-        </Button>
-        <Button variant = "outline-primary" className = 'signUpButton'>Sign up</Button>
-      </Form>
+    <div className = "container">
+      <div className = "header">Movie Recommendation System</div>
+      <div className="login">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group>
+            <Form.Label>Username</Form.Label>
+            <Form.Control
+              autoFocus
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label className = 'password'>Password</Form.Label>
+            <Form.Control
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Button  type="submit" disabled={!validateForm()} className = 'loginButton'
+                  onClick = {() => {checkLogin()}}>
+              Login
+          </Button>
+          <Button variant = "outline-primary" className = 'signUpButton'
+                  onClick = {()=> {router.push('/signUp')}}>Sign up</Button>
+        </Form>
+      </div>
     </div>
   );
 }
