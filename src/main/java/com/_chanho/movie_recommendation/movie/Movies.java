@@ -1,24 +1,29 @@
 package com._chanho.movie_recommendation.movie;
 
+import com._chanho.movie_recommendation.genre.Genres;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
-@Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
+@NamedEntityGraph(name="Movies.withGenres", attributeNodes = {
+        @NamedAttributeNode("genres")
+})
+@Entity @Data @Builder
+@NoArgsConstructor @AllArgsConstructor
 public class Movies {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
+    private String title;
 
+    private Long tId;
+
+    @ManyToMany
+    private Set<Genres> genres;
 }
