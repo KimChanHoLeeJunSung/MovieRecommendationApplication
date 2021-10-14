@@ -30,26 +30,26 @@ public class MovieRecommendationApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	CommandLineRunner run(AppUserService userService) {
-		return args -> {
-			userService.saveRole(new Role(null, "ROLE_USER"));
-			userService.saveRole(new Role(null, "ROLE_MANAGER"));
-			userService.saveRole(new Role(null, "ROLE_ADMIN"));
-			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
-
-			userService.saveUser(new AppUser(null, "ChanBo", "ChanHo", "1234", new ArrayList<>()));
-			userService.saveUser(new AppUser(null, "Modr", "Modric", "1234", new ArrayList<>()));
-			userService.saveUser(new AppUser(null, "Chris", "Ronaldo", "1234", new ArrayList<>()));
-			userService.saveUser(new AppUser(null, "Sergio", "Ramos", "1234", new ArrayList<>()));
-
-			userService.grantRoleToUser("ChanHo", "ROLE_USER");
-			userService.grantRoleToUser("Modric", "ROLE_USER");
-			userService.grantRoleToUser("Ronaldo", "ROLE_USER");
-			userService.grantRoleToUser("Ronaldo", "ROLE_MANAGER");
-			userService.grantRoleToUser("Ramos", "ROLE_ADMIN");
-			userService.grantRoleToUser("Ramos", "ROLE_SUPER_ADMIN");
-		};
-	}
+//	@Bean
+//	CommandLineRunner run(AppUserService userService) {
+//		return args -> {
+//			userService.saveRole(new Role(null, "ROLE_USER"));
+//			userService.saveRole(new Role(null, "ROLE_MANAGER"));
+//			userService.saveRole(new Role(null, "ROLE_ADMIN"));
+//			userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+//
+//			userService.saveUser(new AppUser(null, "ChanBo", "ChanHo", "1234", new ArrayList<>()));
+//			userService.saveUser(new AppUser(null, "Modr", "Modric", "1234", new ArrayList<>()));
+//			userService.saveUser(new AppUser(null, "Chris", "Ronaldo", "1234", new ArrayList<>()));
+//			userService.saveUser(new AppUser(null, "Sergio", "Ramos", "1234", new ArrayList<>()));
+//
+//			userService.grantRoleToUser("ChanHo", "ROLE_USER");
+//			userService.grantRoleToUser("Modric", "ROLE_USER");
+//			userService.grantRoleToUser("Ronaldo", "ROLE_USER");
+//			userService.grantRoleToUser("Ronaldo", "ROLE_MANAGER");
+//			userService.grantRoleToUser("Ramos", "ROLE_ADMIN");
+//			userService.grantRoleToUser("Ramos", "ROLE_SUPER_ADMIN");
+//		};
+//	}
 
 }
