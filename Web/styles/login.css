@@ -1,19 +1,33 @@
-@media all and (min-width: 480px) {
-    .Login {
-        padding: 60px;
-    }
-
-    .Login form {
-        margin: 0 auto;
-        max-width: 400px;
-        background-color: white;
-        padding: 60px;
-        border-radius: 12px;
-    }
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+.header{
+    font-family:'Dancing Script',cursive;
+    font-size:60px;
+    color: rgb(255, 255, 255);
+    margin-top: 6vh;
+}
+
+.login {
+    margin-top: 6vh;
+    min-width: 400px;
+}
+
+.login form {
+    max-width: 400px;
+    background-color: white;
+    padding: 60px;
+    border-radius: 12px;
+    font-family: sans-serif;
+}
+
 .loginButton{
     margin-left : 0;
-    margin-top: 12px;
+    margin-top: 20px;
 }
 
 .password{
@@ -22,5 +36,5 @@
 
 .signUpButton{
     float:right;
-    margin-top: 12px;
+    margin-top: 20px;
 }
