@@ -27,48 +27,12 @@ public class MovieController {
         return movieService.retrieveMovies(pageable);
     }
 
+
     @PostMapping("/recommendation")
     public List<Movies> getRecommendation(@RequestBody RecommendationDto recommendationDto) {
-        HashMap<Genres, Integer> pickedGenres = new HashMap<>();
-        recommendationDto.getPickedMovies().forEach(
-                movieData -> {
-                    Movies movie = movieRepo.findById(movieData.getMovieId()).orElseThrow(
-                            () -> new IllegalStateException("Cannot find Movies with given id: " + movieData.getMovieId().toString()));
-
-                    Set<Genres> genresList = movie.getGenres();
-                    for(Genres g : genresList) {
-                        Integer count = pickedGenres.getOrDefault(g, 0);
-                        pickedGenres.put(g, count);
-                    }
-                }
-        );
-
-        HashMap<Genres, Integer> pickedGenresWithSort = sortByValue(pickedGenres);
-        Iterator<Genres> keys = pickedGenresWithSort.keySet().iterator();
-        Set<Genres> selectBestInKeys = new HashSet<>();
-        int count = 0;
-        while(keys.hasNext() && count < 2) {
-            Genres genres = keys.next();
-            selectBestInKeys.add(genres);
-            count++;
-        }
-
-        for(Genres g : selectBestInKeys) {
-            log.info("selected genres: " + g.toString());
-        }
-
-
+        HashMap<Genres, Integer> pickedGenres = movieService.getPickedGenres(recommendationDto);
+        HashMap<Genres, Integer> pickedGenresWithSort = movieService.sortByValue(pickedGenres);
+        Set<Genres> selectBestInKeys = movieService.selectKeyInMap(pickedGenresWithSort);
         return movieRepo.findByGenres(selectBestInKeys);
-    }
-
-    private HashMap<Genres, Integer> sortByValue(HashMap<Genres, Integer> raw) {
-        return raw.entrySet()
-                .stream()
-                .sorted((i1, i2) -> i1.getValue().compareTo(i2.getValue()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e2, LinkedHashMap::new
-                ));
     }
 }

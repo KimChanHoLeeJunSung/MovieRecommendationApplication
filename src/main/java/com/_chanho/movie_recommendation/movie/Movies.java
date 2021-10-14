@@ -28,10 +28,6 @@ public class Movies {
     private Set<Genres> genres;
 
     public MovieData toMovieData() {
-        return MovieData.builder()
-                .movieId(this.id)
-                .tId(this.tId)
-                .rating(4.0)
-                .build();
+        return MovieData.builder().movieId(this.id).tId(this.tId).rating(4.0).build();
     }
 }

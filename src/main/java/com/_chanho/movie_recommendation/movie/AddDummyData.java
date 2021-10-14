@@ -80,7 +80,6 @@ public class AddDummyData {
                 title.append(token[i]);
                 if(i != token.length-2) title.append(",");
             }
-            System.out.println("title: " + title);
 
 
             movieRepo.save(Movies.builder()

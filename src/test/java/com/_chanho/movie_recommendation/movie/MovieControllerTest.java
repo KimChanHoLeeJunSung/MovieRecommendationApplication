@@ -44,8 +44,7 @@ public class MovieControllerTest {
 
             movieDataList.add(movieData);
         }
-        RecommendationDto recommendationDto =
-                RecommendationDto.builder()
+        RecommendationDto recommendationDto = RecommendationDto.builder()
                         .pickedMovies(movieDataList)
                         .build();
 
