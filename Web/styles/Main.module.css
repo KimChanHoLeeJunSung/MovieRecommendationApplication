@@ -1,0 +1,37 @@
+.container{
+    display: flex;
+    align-items: center;
+    background-color: rgb(255, 255, 255,0.5);
+    padding:30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.title1{
+    min-width:350px;
+    font-size:70px;
+    font-weight:bold;
+    font-family: Spoqa Han Sans;
+    padding: 30px;
+}
+.slide{
+    display: flex;
+    align-items: center;
+}
+@font-face{
+    font-family: '3D';
+    src: url('./Educated.ttf') format('truetype');
+}
+
+.slideNumber{
+    position: relative;
+    font-size: 250px;
+    font-family: '3D';
+    margin-bottom: 30px;
+}
+.slideImage{
+    min-width: 240px;
+    height: 360px;
+    position: relative;
+    box-shadow: 5px 5px 5px;
+    left: -40px;
+}

@@ -1,14 +1,14 @@
 import { GetStaticProps, InferGetStaticPropsType} from 'next';
-import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import {Button,ProgressBar,Navbar} from 'react-bootstrap';
 import { Rating } from 'react-simple-star-rating'
 import {useState} from 'react'
 import ReactCardFlip from 'react-card-flip';
+import { useRouter } from 'next/router'
 
 export const getStaticProps: GetStaticProps = async() => {
-  const res = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=4a31bb4ebbbd558417577076973d354b&language=ko-KR&region=KR')
+  const res = await fetch('https://api.themoviedb.org/3/movie/top_rated?api_key=4a31bb4ebbbd558417577076973d354b&language=ko-KR&region=KR')
   const data = await res.json()
   return {
       props:{
@@ -47,10 +47,11 @@ const Cards = ({movieData,storage,setStorage} : any) => {
   const refreshCard = (title:string) => {
     const nStorage = storage.slice()
     for(let i = 0; i < storage.length; i++){
-      if(storage[i][0] === title)
+      if(storage[i][0] === title){
         nStorage.splice(i,1)
         setStorage(nStorage)
         break
+      }
     }
   }
 
@@ -79,13 +80,15 @@ const Cards = ({movieData,storage,setStorage} : any) => {
 
 const Home = ({movieData}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [storage, setStorage] = useState<any[]>([]);
+  const router = useRouter()
   console.log(storage)
   return (
     <>
       <Navbar fixed = 'top' className = {styles.Header}>
         <div className ={styles.headerTop}>
           <h1>Please rates at least 10 movies</h1>
-          <Button variant = "success" className = {styles.headerButton}>Next</Button>
+          <Button variant = "success" disabled = {!(storage.length >= 10)} className = {styles.headerButton}
+                  onClick={() => router.push('/mainPage')}>Next</Button>
         </div>
         <ProgressBar striped variant="success" now={storage.length*5} label = {`${storage.length}/20`} className = {styles.progressBar}/>
       </Navbar>

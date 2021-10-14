@@ -16,7 +16,7 @@ export default function LoginPage() {
     event.preventDefault();
   }
   function checkLogin(){
-    router.push('/firstPage')
+    router.push('/startPage')
   }
 
   return (
