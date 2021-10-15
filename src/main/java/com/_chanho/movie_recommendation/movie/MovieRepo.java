@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 
 @Repository
-public interface MovieRepo extends JpaRepository<Movies, Long> {
+public interface MovieRepo extends JpaRepository<Movies, Long>, MovieRepoExtension {
 
     @EntityGraph(value = "Movies.withGenres", type= EntityGraph.EntityGraphType.FETCH)
     Page<Movies> findAll(Pageable pageable);
