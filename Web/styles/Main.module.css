@@ -1,16 +1,17 @@
-.container{
+.container1{
     display: flex;
     align-items: center;
-    background-color: rgb(255, 255, 255,0.5);
+    background-color: rgb(255, 255, 255,0.3);
     padding:30px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 .title1{
     min-width:350px;
     font-size:70px;
     font-weight:bold;
     font-family: Spoqa Han Sans;
+    color:rgb(255, 255, 255,0.9);
     padding: 30px;
 }
 .slide{
@@ -28,10 +29,55 @@
     font-family: '3D';
     margin-bottom: 30px;
 }
-.slideImage{
+.slidePoster{
     min-width: 240px;
     height: 360px;
     position: relative;
     box-shadow: 5px 5px 5px;
     left: -40px;
+}
+.slideContent{
+    width: 240px;
+    height: 360px;
+    padding: 25px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255,0.9);
+    box-shadow: 5px 5px 5px;
+    font-family: Spoqa Han Sans;
+    left:-40px;
+}
+
+.card{
+    padding: 1vw;
+}
+.poster{
+    width: 240px;
+    height: 360px;
+    box-shadow: 5px 5px 5px;
+}
+.content {
+    width: 240px;
+    height: 360px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255,0.9);
+    box-shadow: 5px 5px 5px;
+    font-family: Spoqa Han Sans;
+}
+.overview::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+.title{
+    margin-bottom: 10px;
+    font-size:large;
+    font-weight:bold;
+}
+.overview{
+    height: 80%;
+    overflow-y:scroll;
+    font-size: small;
+    margin-bottom: 20px;
 }

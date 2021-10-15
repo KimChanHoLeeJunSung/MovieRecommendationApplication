@@ -11,15 +11,23 @@ export default function LoginPage() {
   const [isSame, setIsSame] = useState<boolean>(false);
 
   async function signUpUser(){
-      const response = await fetch('http://221.147.149.142:8000/api/user/save',{
+      const response = await fetch('/api/user/save',{
           method: 'POST',
+          headers:{
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({
               username: name,
               password: password,
           })
       })
-      const data = response.json()
-      console.log(data)
+      .then((response) => {
+        const data = response.json()
+        console.log(data)
+        alert('Sign Up Success')
+        router.push('../')
+      })
+      .catch(()=>{alert("Error")})
   }
 
   function chkPW(e: { target: { value: string; }; }){
@@ -51,7 +59,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className = "container">
+    <div className = "container2">
       <div className = "header">Movie Recommendation System</div>
       <div className="login">
         <Form onSubmit={handleSubmit}>

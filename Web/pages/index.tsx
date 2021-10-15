@@ -16,11 +16,13 @@ export default function LoginPage() {
     event.preventDefault();
   }
   function checkLogin(){
+    sessionStorage.setItem('userId',name)
+    alert('Login Success')
     router.push('/startPage')
   }
 
   return (
-    <div className = "container">
+    <div className = "container2">
       <div className = "header">Movie Recommendation System</div>
       <div className="login">
         <Form onSubmit={handleSubmit}>
