@@ -69,6 +69,7 @@ public class MovieService {
             Genres genres = keys.next();
             selectBestInKeys.add(genres);
             count++;
+            log.info("selected Genres: " + genres.getName());
         }
 
         return selectBestInKeys;

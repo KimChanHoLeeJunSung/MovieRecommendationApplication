@@ -2,7 +2,7 @@ package com._chanho.movie_recommendation.movie;
 
 import com._chanho.movie_recommendation.genre.Genres;
 import com._chanho.movie_recommendation.genre.QGenres;
-import com._chanho.movie_recommendation.movie.QMovies;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -15,12 +15,26 @@ public class MovieRepoExtensionImpl extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public List<Movies> findByGenres(Set<Genres> genres) {
-        QMovies movies = QMovies.movies;
+    public List<Movies> findByGenres(Set<Genres> genres, RecommendationDto recommendationDto) {
+        com._chanho.movie_recommendation.movie.QMovies movies
+                = com._chanho.movie_recommendation.movie.QMovies.movies;
+
+        BooleanBuilder containGenres = new BooleanBuilder();
+        genres.forEach(genre -> {
+            containGenres.and(movies.genres.contains(genre));
+        });
+
+        BooleanBuilder notInRecommendation = new BooleanBuilder();
+        recommendationDto.getPickedMovies().forEach(movieData -> {
+            notInRecommendation.and(movies.id.notIn(movieData.getMovieId()));
+        });
+
         JPQLQuery<Movies> query = from(movies)
-                .where(movies.genres.any().in(genres))
+                .where(containGenres)
+                .where(notInRecommendation)
                 .leftJoin(movies.genres, QGenres.genres).fetchJoin()
                 .distinct().limit(10);
+
 
         return query.fetch();
     }

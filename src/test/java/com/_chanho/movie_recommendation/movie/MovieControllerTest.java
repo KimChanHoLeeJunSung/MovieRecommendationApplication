@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -50,11 +51,15 @@ public class MovieControllerTest {
 
         String requestBody = objectMapper.writeValueAsString(recommendationDto);
 
-        mockMvc.perform(post("/api/movie/recommendation")
+        MvcResult result = mockMvc.perform(post("/api/movie/recommendation")
                 .content(requestBody)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print()).andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        System.out.println(content);
     }
 }

@@ -33,6 +33,6 @@ public class MovieController {
         HashMap<Genres, Integer> pickedGenres = movieService.getPickedGenres(recommendationDto);
         HashMap<Genres, Integer> pickedGenresWithSort = movieService.sortByValue(pickedGenres);
         Set<Genres> selectBestInKeys = movieService.selectKeyInMap(pickedGenresWithSort);
-        return movieRepo.findByGenres(selectBestInKeys);
+        return movieRepo.findByGenres(selectBestInKeys, recommendationDto);
     }
 }
