@@ -108,7 +108,7 @@ const Main = ({movieData1,movieData3,videoIDs}: InferGetStaticPropsType<typeof g
         }
         function defineRatio(){
             if (typeof window !== 'undefined' && typeof screen !== 'undefined')
-                setRatio(window.innerWidth/screen.availWidth)
+                setRatio(window.innerHeight/screen.availHeight)
         }
         window.addEventListener('resize', defineRatio)
         defineRatio()
